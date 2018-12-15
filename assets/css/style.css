@@ -1,0 +1,13 @@
+#logo {
+    display: block;
+    max-width: 300px;
+    margin: 0 auto;
+}
+.topbar {
+    height: 160px;
+    background: url(../images/rps-bg.png) rgb(237,220,208);
+    border-bottom: 5px inset rgb(116,88,67)
+}
+body {
+    background: url(../images/rps-bg1.png)
+}
