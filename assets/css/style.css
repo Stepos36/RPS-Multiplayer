@@ -11,3 +11,16 @@
 body {
     background: url(../images/rps-bg1.png)
 }
+.main-container {
+    width: 968px;
+    margin: 0 auto;
+    background-color: rgb(255,255,255, 0.9);
+    border: groove 3px rgb(76,49,49);
+    border-radius: 10px;
+    margin-top: 15px;
+}
+#welcome {
+    font-size: 50px;
+    font-family: 'Cairo', sans-serif;
+    text-align: center
+}
