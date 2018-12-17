@@ -24,3 +24,13 @@ body {
     font-family: 'Cairo', sans-serif;
     text-align: center
 }
+.startGame {
+    width: 270px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 50px;
+    font-family: 'Cairo', sans-serif;
+    border: groove rgb(77,49,28) 2px;
+    border-radius: 10px;
+    padding: 5px
+}
