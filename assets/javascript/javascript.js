@@ -1,6 +1,6 @@
 //DOM variables:
-var game = $('.gameWindow')
-
+var game = $('.gameWindow');
+var score;
 
 
 $(document).ready(function() {
@@ -11,10 +11,8 @@ $(document).ready(function() {
     $('.gameWindow').html(mt)
 
     $(document).on('click', '.startGame', function() {
-
         $('.gameWindow').html(gt)
     })
-
 
 
     
