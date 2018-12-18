@@ -66,7 +66,7 @@ $(document).ready(function() {
         })
     })
     dataRef.ref().on("child_added", function(childSnapshot) {
-        console.log(childSnapshot.val().choice)
+        
     })
 
     
