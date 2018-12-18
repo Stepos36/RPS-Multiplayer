@@ -18,10 +18,7 @@ $(document).ready(function() {
       firebase.initializeApp(config);
 
       var dataRef = firebase.database();
-      dataRef.ref().child("Key1").set({player: player, choice1: 0
-      })
-      dataRef.ref().child("Key2").set({player: player, choice2: 0
-      })
+      
     var game = $('.gameWindow');
     var gt = $('#gameTemplate').html()
     var got =$('#gameOverTemplate').html()
@@ -45,7 +42,7 @@ $(document).ready(function() {
         $('#seat2').hide();
         $('.icons-1').html(i1);
         $('.icons-2').html(i2).hide();
-        dataRef.ref().child("Key1").set({player: player,
+        dataRef.ref().child("Key1").set({player: player, choice1: 0
         })
     })
     $(document).on('click', '#rock1', function() {
@@ -76,8 +73,29 @@ $(document).ready(function() {
         console.log(ch2)
         if(((ch1==='rock')||(ch1==='paper')||(ch1==='scissors'))&&((ch2==='rock')||(ch2==='paper')||(ch2==='scissors'))) {
             if (ch1===ch2) {console.log('tie')}
-            else if (((ch1==='rock')&&(ch2==='scissors'))||((ch1==='paper')&&(ch2==='rock'))||((ch1==='scissors')&&(ch2==='paper'))){console.log('player 1 wins')}
-            else {console.log('player 2 wins')}
+            else if (((ch1==='rock')&&(ch2==='scissors'))||((ch1==='paper')&&(ch2==='rock'))||((ch1==='scissors')&&(ch2==='paper'))){
+                    console.log('player 1 wins')
+                    dataRef.ref().child("Key1").set({player: player, choice1: 0
+                    })
+                    dataRef.ref().child("Key2").set({player: player, choice2: 0
+                    })
+                    score1++
+                    $('.score-1').html('Score: ' + score1)
+                }
+            else {
+                    console.log('player 2 wins')
+                    dataRef.ref().child("Key1").set({
+                        player: player, choice1: 0
+                    })
+                    dataRef.ref().child("Key2").set({
+                        player: player, choice2: 0
+                    })
+                    score2++
+                    $('.score-2').html('Score: ' + score2)
+                }
+        }
+        if ((score1===3)||(score2)===3) {
+            game.html(got)
         }
     })
 
@@ -88,7 +106,7 @@ $(document).ready(function() {
         $('#seat2').hide()
         $('.icons-1').html(i1).hide()
         $('.icons-2').html(i2)
-        dataRef.ref().child("Key2").set({player: player,
+        dataRef.ref().child("Key2").set({player: player, choice2: 0
         })
     })
     $(document).on('click', '#rock2', function() {
