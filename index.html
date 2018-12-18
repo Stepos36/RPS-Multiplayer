@@ -23,16 +23,23 @@
         </div>
         <!-- Templates -->
         <script id="gameTemplate" type="text/template">
-            <div class="container game-container">
+            <div class="row chat">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 chat-window">
+                
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div class="row game-container">
                 <div class="col-md-6 player1">
+                    <input id="seat1" type="submit" value="Seat here">
                     <div class="score-1"></div>
-                    <div class="dialogue-1"></div>
                     <div class="icons-1"></div>
                     <div class="status-1"></div>
                 </div>
                 <div class="col-md-6 player2">
+                    <input id="seat2" type="submit" value="Seat here">
                     <div class="score-2"></div>
-                    <div class="dialogue-2"></div>
                     <div class="icons-2"></div>
                     <div class="status-2"></div>
                 </div>
@@ -51,6 +58,18 @@
                     <div class="startGame">Start Game</div>
                 </div>
             </div>
+        </script>
+
+        <script id="rps-1" type="text/template">
+            <img id="rock1" src="assets/images/rock.png">
+            <img id="paper1" src="assets/images/paper.png">
+            <img id="scissors1" src="assets/images/scissors.png">
+        </script>
+
+        <script id="rps-2" type="text/template">
+            <img id="rock2" src="assets/images/rock.png">
+            <img id="paper2" src="assets/images/paper.png">
+            <img id="scissors2" src="assets/images/scissors.png">
         </script>
     </body>
 </html>
