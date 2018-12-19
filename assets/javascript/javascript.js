@@ -10,14 +10,14 @@ var gameActive;
 $(document).ready(function() {
     gameActive = 0
     var config = {
-        apiKey: "AIzaSyATd6LDnCdUOO-36JL7fJP72ai2QVXCWeM",
-        authDomain: "rps-homework-f05f0.firebaseapp.com",
-        databaseURL: "https://rps-homework-f05f0.firebaseio.com",
-        projectId: "rps-homework-f05f0",
-        storageBucket: "rps-homework-f05f0.appspot.com",
-        messagingSenderId: "506267492578"
-      };
-      firebase.initializeApp(config);
+    apiKey: "AIzaSyD59YIx73X9qHrStectDXOorxsKx4xZDe8",
+    authDomain: "sndec122018.firebaseapp.com",
+    databaseURL: "https://sndec122018.firebaseio.com",
+    projectId: "sndec122018",
+    storageBucket: "sndec122018.appspot.com",
+    messagingSenderId: "722188890040"
+  };
+  firebase.initializeApp(config);
 
       var dataRef = firebase.database();
       
@@ -40,7 +40,6 @@ $(document).ready(function() {
     })
 
     $(document).on('click', '#seat1', function() {
-        taken = 1
         chosenNumber = 1
         $('#seat1').hide();
         $('#seat2').hide();
@@ -53,21 +52,21 @@ $(document).ready(function() {
         choice1 = "rock";
         $('#paper1').hide()
         $('#scissors1').hide()
-        dataRef.ref().child("Key1").update({player: chosenNumber, choice1: choice1, seat: 1
+        dataRef.ref().child("Key1").update({choice1: choice1, seat: 1
         })
     })
     $(document).on('click', '#paper1', function() {
         choice1 = "paper";
         $('#rock1').hide()
         $('#scissors1').hide()
-        dataRef.ref().child("Key1").update({player: chosenNumber, choice1: choice1, seat: 1
+        dataRef.ref().child("Key1").update({choice1: choice1, seat: 1
         })
     })
     $(document).on('click', '#scissors1', function() {
         choice1 = "scissors";
         $('#rock1').hide()
         $('#paper1').hide()
-        dataRef.ref().child("Key1").update({player: chosenNumber, choice1: choice1, seat: 1
+        dataRef.ref().child("Key1").update({choice1: choice1, seat: 1
         })
     })
     dataRef.ref().on("value", function(childSnapshot) {
@@ -77,7 +76,7 @@ $(document).ready(function() {
         var seat2 = childSnapshot.val().Key2.seat
         var pl1 = childSnapshot.val().Key1.player
         var pl2 = childSnapshot.val().Key2.player
-        if ((childSnapshot.val().Key1===1)&&(childSnapshot.val().Key2===1)){
+        if ((childSnapshot.val().Key1.playerLeft===1)&&(childSnapshot.val().Key2.playerLeft===1)){
             $('.gameWindow').empty().html(mt)
             $('#welcome').html('<div>Second player left the game</div>')
             score=0
@@ -104,28 +103,28 @@ $(document).ready(function() {
             if (ch1===ch2) {
                 console.log('tie')
                 $('.icons-'+chosenNumber).html($('#rps-'+chosenNumber).html());
-                dataRef.ref().child("Key1").set({player: chosenNumber, choice1: 0, seat: 1
+                dataRef.ref().child("Key1").update({choice1: 0, seat: 1
                 })
-                dataRef.ref().child("Key2").set({player: chosenNumber, choice2: 0, seat: 1
+                dataRef.ref().child("Key2").update({choice2: 0, seat: 1
                 })
             }
             else if (((ch1==='rock')&&(ch2==='scissors'))||((ch1==='paper')&&(ch2==='rock'))||((ch1==='scissors')&&(ch2==='paper'))){
                     console.log('player 1 wins')
-                    dataRef.ref().child("Key1").set({player: chosenNumber, choice1: 0, seat: 1
+                    dataRef.ref().child("Key1").update({choice1: 0, seat: 1
                     })
-                    dataRef.ref().child("Key2").set({player: chosenNumber, choice2: 0, seat: 1
+                    dataRef.ref().child("Key2").update({choice2: 0, seat: 1
                     })
                     score1++
                     $('.score-1').html('Score: ' + score1)
                     $('.icons-'+chosenNumber).html($('#rps-'+chosenNumber).html());
                 }
-            else {
+            else if (((ch2==='rock')&&(ch1==='scissors'))||((ch2==='paper')&&(ch1==='rock'))||((ch2==='scissors')&&(ch1==='paper'))) {
                     console.log('player 2 wins')
-                    dataRef.ref().child("Key1").set({
-                        player: chosenNumber, choice1: 0, seat: 1
+                    dataRef.ref().child("Key1").update({
+                        choice1: 0, seat: 1
                     })
-                    dataRef.ref().child("Key2").set({
-                        player: chosenNumber, choice2: 0, seat: 1
+                    dataRef.ref().child("Key2").update({
+                        choice2: 0, seat: 1
                     })
                     score2++
                     $('.score-2').html('Score: ' + score2)
@@ -134,9 +133,10 @@ $(document).ready(function() {
         }
         if ((score1===3)||(score2)===3) {
             game.html(got)
-            dataRef.ref().child("Key1").set({player: chosenNumber, choice1: 0, seat: 0
+            $('.score').html('<div>Player1 scored: '+ score1+'</div><div>Player2 scored: '+ score2+'</div>')
+            dataRef.ref().child("Key1").update({player: 0, choice1: 0, seat: 0
             })
-            dataRef.ref().child("Key2").set({player: chosenNumber, choice2: 0, seat: 0
+            dataRef.ref().child("Key2").update({player: 0, choice2: 0, seat: 0
             })
         }
     })
@@ -157,21 +157,21 @@ $(document).ready(function() {
         choice2 = "rock";
         $('#paper2').hide()
         $('#scissors2').hide()
-        dataRef.ref().child("Key2").update({player: chosenNumber, choice2: choice2, seat: 1
+        dataRef.ref().child("Key2").update({choice2: choice2, seat: 1
         })
     })
     $(document).on('click', '#paper2', function() {
         choice2 = "paper";
         $('#rock2').hide()
         $('#scissors2').hide()
-        dataRef.ref().child("Key2").update({player: chosenNumber, choice2: choice2, seat: 1
+        dataRef.ref().child("Key2").update({choice2: choice2, seat: 1
         })
     })
     $(document).on('click', '#scissors2', function() {
         choice2 = "scissors";
         $('#rock2').hide()
         $('#paper2').hide()
-        dataRef.ref().child("Key2").update({player: chosenNumber, choice2: choice2, seat: 1
+        dataRef.ref().child("Key2").update({choice2: choice2, seat: 1
         })
     })
 })
