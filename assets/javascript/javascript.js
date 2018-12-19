@@ -2,11 +2,13 @@ var score1;
 var score2;
 var player = "";
 var choice1 = "";
-var choice2 = "";
-var choice3 = "";
-
+var chosenNumber;
+var seat1Available;
+var seat2Available;
+var taken;
+var gameActive;
 $(document).ready(function() {
-    
+    gameActive = 0
     var config = {
         apiKey: "AIzaSyATd6LDnCdUOO-36JL7fJP72ai2QVXCWeM",
         authDomain: "rps-homework-f05f0.firebaseapp.com",
@@ -33,101 +35,143 @@ $(document).ready(function() {
         startGame()
         $('.score-1').html('Score: ' + score1)
         $('.score-2').html('Score: ' + score2)
-
+        $('#welcome').html('')
+        gameActive = 1
     })
 
     $(document).on('click', '#seat1', function() {
-        player = '1'
+        taken = 1
+        chosenNumber = 1
         $('#seat1').hide();
         $('#seat2').hide();
         $('.icons-1').html(i1);
         $('.icons-2').html(i2).hide();
-        dataRef.ref().child("Key1").set({player: player, choice1: 0
+        dataRef.ref().child("Key1").set({player: chosenNumber, choice1: 0, seat: 1
         })
     })
     $(document).on('click', '#rock1', function() {
         choice1 = "rock";
         $('#paper1').hide()
         $('#scissors1').hide()
-        dataRef.ref().child("Key1").set({player: player, choice1: choice1
+        dataRef.ref().child("Key1").update({player: chosenNumber, choice1: choice1, seat: 1
         })
     })
     $(document).on('click', '#paper1', function() {
         choice1 = "paper";
         $('#rock1').hide()
         $('#scissors1').hide()
-        dataRef.ref().child("Key1").set({player: player, choice1: choice1
+        dataRef.ref().child("Key1").update({player: chosenNumber, choice1: choice1, seat: 1
         })
     })
     $(document).on('click', '#scissors1', function() {
         choice1 = "scissors";
         $('#rock1').hide()
         $('#paper1').hide()
-        dataRef.ref().child("Key1").set({player: player, choice1: choice1
+        dataRef.ref().child("Key1").update({player: chosenNumber, choice1: choice1, seat: 1
         })
     })
     dataRef.ref().on("value", function(childSnapshot) {
         var ch1 = childSnapshot.val().Key1.choice1
         var ch2 = childSnapshot.val().Key2.choice2
-        console.log(ch1)
-        console.log(ch2)
+        var seat1 = childSnapshot.val().Key1.seat
+        var seat2 = childSnapshot.val().Key2.seat
+        var pl1 = childSnapshot.val().Key1.player
+        var pl2 = childSnapshot.val().Key2.player
+        if ((childSnapshot.val().Key1===1)&&(childSnapshot.val().Key2===1)){
+            $('.gameWindow').empty().html(mt)
+            $('#welcome').html('<div>Second player left the game</div>')
+            score=0
+        }
+
+        if (seat1===1) {$('#seat1').hide()};
+        if (seat2===1) {$('#seat2').hide()};
+        if (((seat1===1)&&(seat2===1))&&(((pl1===1)&&(pl2===2))||((pl2===1)&&(pl1===2)))) {
+            if(gameActive===0){
+            console.log('player left')
+            dataRef.ref().child("Key1").set({player: 0, choice1: 0, seat: 0, playerLeft: 1
+            })
+            dataRef.ref().child("Key2").set({player: 0, choice2: 0, seat: 0, playerLeft: 1
+            })
+            }
+        }
+        console.log('Choice1: ' +ch1)
+        console.log('Choice2: ' +ch2)
+        console.log('Is seat 1 taken: ' +seat1)
+        console.log('Is seat 2 taken: ' + seat2)
+        console.log('Player #1 seat: ' + pl1)
+        console.log('Player #2 seat: ' + pl2)
         if(((ch1==='rock')||(ch1==='paper')||(ch1==='scissors'))&&((ch2==='rock')||(ch2==='paper')||(ch2==='scissors'))) {
-            if (ch1===ch2) {console.log('tie')}
+            if (ch1===ch2) {
+                console.log('tie')
+                $('.icons-'+chosenNumber).html($('#rps-'+chosenNumber).html());
+                dataRef.ref().child("Key1").set({player: chosenNumber, choice1: 0, seat: 1
+                })
+                dataRef.ref().child("Key2").set({player: chosenNumber, choice2: 0, seat: 1
+                })
+            }
             else if (((ch1==='rock')&&(ch2==='scissors'))||((ch1==='paper')&&(ch2==='rock'))||((ch1==='scissors')&&(ch2==='paper'))){
                     console.log('player 1 wins')
-                    dataRef.ref().child("Key1").set({player: player, choice1: 0
+                    dataRef.ref().child("Key1").set({player: chosenNumber, choice1: 0, seat: 1
                     })
-                    dataRef.ref().child("Key2").set({player: player, choice2: 0
+                    dataRef.ref().child("Key2").set({player: chosenNumber, choice2: 0, seat: 1
                     })
                     score1++
                     $('.score-1').html('Score: ' + score1)
+                    $('.icons-'+chosenNumber).html($('#rps-'+chosenNumber).html());
                 }
             else {
                     console.log('player 2 wins')
                     dataRef.ref().child("Key1").set({
-                        player: player, choice1: 0
+                        player: chosenNumber, choice1: 0, seat: 1
                     })
                     dataRef.ref().child("Key2").set({
-                        player: player, choice2: 0
+                        player: chosenNumber, choice2: 0, seat: 1
                     })
                     score2++
                     $('.score-2').html('Score: ' + score2)
+                    $('.icons-'+chosenNumber).html($('#rps-'+chosenNumber).html());
                 }
         }
         if ((score1===3)||(score2)===3) {
             game.html(got)
+            dataRef.ref().child("Key1").set({player: chosenNumber, choice1: 0, seat: 0
+            })
+            dataRef.ref().child("Key2").set({player: chosenNumber, choice2: 0, seat: 0
+            })
         }
     })
 
     
     $(document).on('click', '#seat2', function() {
+        taken = 1
+        chosenNumber = 2
         player = '2'
         $('#seat1').hide()
         $('#seat2').hide()
         $('.icons-1').html(i1).hide()
         $('.icons-2').html(i2)
-        dataRef.ref().child("Key2").set({player: player, choice2: 0
+        dataRef.ref().child("Key2").set({player: chosenNumber, choice2: 0, seat: 1
         })
     })
     $(document).on('click', '#rock2', function() {
         choice2 = "rock";
         $('#paper2').hide()
         $('#scissors2').hide()
-        dataRef.ref().child("Key2").set({player: player, choice2: choice2
+        dataRef.ref().child("Key2").update({player: chosenNumber, choice2: choice2, seat: 1
         })
     })
     $(document).on('click', '#paper2', function() {
         choice2 = "paper";
         $('#rock2').hide()
         $('#scissors2').hide()
-        dataRef.ref().child("Key2").set({player: player, choice2: choice2
+        dataRef.ref().child("Key2").update({player: chosenNumber, choice2: choice2, seat: 1
         })
     })
     $(document).on('click', '#scissors2', function() {
         choice2 = "scissors";
         $('#rock2').hide()
         $('#paper2').hide()
-        dataRef.ref().child("Key2").set({player: player, choice2: choice2
+        dataRef.ref().child("Key2").update({player: chosenNumber, choice2: choice2, seat: 1
         })
     })
 })
@@ -137,4 +181,5 @@ $(document).ready(function() {
 function startGame() {
     score1 = 0;
     score2 = 0;
+    chosenNumber = 0;
 }
