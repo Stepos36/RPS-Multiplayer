@@ -3,8 +3,8 @@ var score2;
 var player = "";
 var choice1 = "";
 var chosenNumber;
-var seat1Available;
-var seat2Available;
+var seat1;
+var seat2;
 var taken;
 var gameActive;
 $(document).ready(function() {
@@ -37,10 +37,12 @@ $(document).ready(function() {
         $('.score-2').html('Score: ' + score2)
         $('#welcome').html('')
         gameActive = 1
+        checkSeats()
     })
 
     $(document).on('click', '#seat1', function() {
         chosenNumber = 1
+        seat1 = 1
         $('#seat1').hide();
         $('#seat2').hide();
         $('.icons-1').html(i1);
@@ -72,13 +74,13 @@ $(document).ready(function() {
     dataRef.ref().on("value", function(childSnapshot) {
         var ch1 = childSnapshot.val().Key1.choice1
         var ch2 = childSnapshot.val().Key2.choice2
-        var seat1 = childSnapshot.val().Key1.seat
-        var seat2 = childSnapshot.val().Key2.seat
+        seat1 = childSnapshot.val().Key1.seat
+        seat2 = childSnapshot.val().Key2.seat
         var pl1 = childSnapshot.val().Key1.player
         var pl2 = childSnapshot.val().Key2.player
         if ((childSnapshot.val().Key1.playerLeft===1)&&(childSnapshot.val().Key2.playerLeft===1)){
             $('.gameWindow').empty().html(mt)
-            $('#welcome').html('<div>Second player left the game</div>')
+            $('#welcome').html('<div>One of the players has left the game</div>')
             score=0
         }
 
@@ -110,9 +112,9 @@ $(document).ready(function() {
             }
             else if (((ch1==='rock')&&(ch2==='scissors'))||((ch1==='paper')&&(ch2==='rock'))||((ch1==='scissors')&&(ch2==='paper'))){
                     console.log('player 1 wins')
-                    dataRef.ref().child("Key1").update({choice1: 0, seat: 1
+                    dataRef.ref().child("Key1").update({choice1: 0,
                     })
-                    dataRef.ref().child("Key2").update({choice2: 0, seat: 1
+                    dataRef.ref().child("Key2").update({choice2: 0, 
                     })
                     score1++
                     $('.score-1').html('Score: ' + score1)
@@ -121,10 +123,10 @@ $(document).ready(function() {
             else if (((ch2==='rock')&&(ch1==='scissors'))||((ch2==='paper')&&(ch1==='rock'))||((ch2==='scissors')&&(ch1==='paper'))) {
                     console.log('player 2 wins')
                     dataRef.ref().child("Key1").update({
-                        choice1: 0, seat: 1
+                        choice1: 0,
                     })
                     dataRef.ref().child("Key2").update({
-                        choice2: 0, seat: 1
+                        choice2: 0, 
                     })
                     score2++
                     $('.score-2').html('Score: ' + score2)
@@ -138,14 +140,15 @@ $(document).ready(function() {
             })
             dataRef.ref().child("Key2").update({player: 0, choice2: 0, seat: 0
             })
+            score1 = 0
+            score2 = 0
         }
     })
 
     
     $(document).on('click', '#seat2', function() {
-        taken = 1
         chosenNumber = 2
-        player = '2'
+        seat2 = 1
         $('#seat1').hide()
         $('#seat2').hide()
         $('.icons-1').html(i1).hide()
@@ -176,6 +179,10 @@ $(document).ready(function() {
     })
 })
 
+function checkSeats() {
+    if (seat1===1) {$('#seat1').hide()};
+    if (seat2===1) {$('#seat2').hide()};
+}
   
 
 function startGame() {

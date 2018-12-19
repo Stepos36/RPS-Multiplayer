@@ -34,3 +34,22 @@ body {
     border-radius: 10px;
     padding: 5px
 }
+.rps-tool {
+    width:150px;
+    display: inline-block;
+}
+.icons-1,.icons-2,.player1,.player2,.gameOver-container {
+   text-align: center
+}
+#seat1,#seat2 {
+    margin: 0 auto;
+    text-align: center;
+    font-size: 50px;
+    font-family: 'Cairo', sans-serif;
+    border: groove rgb(77,49,28) 2px;
+    border-radius: 10px;
+    padding: 5px
+}
+.gameOver,.score, {
+    display: inline-block
+}
