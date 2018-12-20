@@ -152,9 +152,11 @@ dataRef.ref().on("value", function(childSnapshot) {
                 $('#'+ch1+otherNumber).hide()
                 $('#'+ch2+otherNumber).hide()
                 $('.icons-'+chosenNumber).html($('#rps-'+chosenNumber).html())
-                dataRef.ref().child("Key1").update({choice1: 0, seat: 1
+            },2000)
+            setTimeout(function() {
+                dataRef.ref().child("Key1").update({choice1: 0,
                 })
-                dataRef.ref().child("Key2").update({choice2: 0, seat: 1
+                dataRef.ref().child("Key2").update({choice2: 0, 
                 })
             },2000)
         }
@@ -169,13 +171,15 @@ dataRef.ref().on("value", function(childSnapshot) {
                 setTimeout(function() {
                     $('#'+ch1+otherNumber).hide()
                     $('#'+ch2+otherNumber).hide()
+                    score1++
+                    $('.score-1').html('Score: ' + score1)
+                    $('.icons-'+chosenNumber).html($('#rps-'+chosenNumber).html())
+                },2000)
+                setTimeout(function() {
                     dataRef.ref().child("Key1").update({choice1: 0,
                     })
                     dataRef.ref().child("Key2").update({choice2: 0, 
                     })
-                    score1++
-                    $('.score-1').html('Score: ' + score1)
-                    $('.icons-'+chosenNumber).html($('#rps-'+chosenNumber).html())
                 },2000)
             }
         else if (((ch2==='rock')&&(ch1==='scissors'))||((ch2==='paper')&&(ch1==='rock'))||((ch2==='scissors')&&(ch1==='paper'))) {
@@ -189,13 +193,15 @@ dataRef.ref().on("value", function(childSnapshot) {
                 setTimeout(function() {
                     $('#'+ch1+otherNumber).hide()
                     $('#'+ch2+otherNumber).hide()
+                    score2++
+                    $('.score-2').html('Score: ' + score2)
+                    $('.icons-'+chosenNumber).html($('#rps-'+chosenNumber).html())
+                },2000)
+                setTimeout(function() {
                     dataRef.ref().child("Key1").update({choice1: 0,
                     })
                     dataRef.ref().child("Key2").update({choice2: 0, 
                     })
-                    score2++
-                    $('.score-2').html('Score: ' + score2)
-                    $('.icons-'+chosenNumber).html($('#rps-'+chosenNumber).html())
                 },2000)
             }
     }
