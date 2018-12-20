@@ -142,8 +142,12 @@ dataRef.ref().on("value", function(childSnapshot) {
     if(((ch1==='rock')||(ch1==='paper')||(ch1==='scissors'))&&((ch2==='rock')||(ch2==='paper')||(ch2==='scissors'))) {
         if (ch1===ch2) {
             console.log('tie')
-            $('#'+ch1+otherNumber).show()
-            $('#'+ch2+otherNumber).show()
+            if (chosenNumber===1){
+                $('#'+ch1+otherNumber).show()
+            }
+            else if (chosenNumber===2){
+                $('#'+ch2+otherNumber).show()
+            }
             setTimeout(function() {
                 $('#'+ch1+otherNumber).hide()
                 $('#'+ch2+otherNumber).hide()
@@ -156,7 +160,15 @@ dataRef.ref().on("value", function(childSnapshot) {
         }
         else if (((ch1==='rock')&&(ch2==='scissors'))||((ch1==='paper')&&(ch2==='rock'))||((ch1==='scissors')&&(ch2==='paper'))){
                 console.log('player 1 wins')
+                if (chosenNumber===2){
+                    $('#'+ch1+otherNumber).show()
+                }
+                else if (chosenNumber===1){
+                    $('#'+ch2+otherNumber).show()
+                }
                 setTimeout(function() {
+                    $('#'+ch1+otherNumber).hide()
+                    $('#'+ch2+otherNumber).hide()
                     dataRef.ref().child("Key1").update({choice1: 0,
                     })
                     dataRef.ref().child("Key2").update({choice2: 0, 
@@ -168,7 +180,15 @@ dataRef.ref().on("value", function(childSnapshot) {
             }
         else if (((ch2==='rock')&&(ch1==='scissors'))||((ch2==='paper')&&(ch1==='rock'))||((ch2==='scissors')&&(ch1==='paper'))) {
                 console.log('player 2 wins')
+                if (chosenNumber===2){
+                    $('#'+ch1+otherNumber).show()
+                }
+                else if (chosenNumber===1){
+                    $('#'+ch2+otherNumber).show()
+                }
                 setTimeout(function() {
+                    $('#'+ch1+otherNumber).hide()
+                    $('#'+ch2+otherNumber).hide()
                     dataRef.ref().child("Key1").update({choice1: 0,
                     })
                     dataRef.ref().child("Key2").update({choice2: 0, 
