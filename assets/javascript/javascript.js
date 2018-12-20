@@ -1,11 +1,10 @@
 var score1;
 var score2;
-var player = "";
 var choice1 = "";
 var chosenNumber;
+var otherNumber;
 var seat1;
 var seat2;
-var taken;
 var gameActive;
 $(document).ready(function() {
     gameActive = 0
@@ -42,10 +41,12 @@ $(document).ready(function() {
 
     $(document).on('click', '#seat1', function() {
         chosenNumber = 1
+        otherNumber = 2
         seat1 = 1
         setTimeout(function() {
             $('.icons-1').html(i1);
-            $('.icons-2').html(i2).hide();
+            $('.icons-2').html(i2);
+            $('#rock2,#paper2,#scissors2').hide()
         },500)
         $('#seat2').animate({opacity: '0', height: '1px'},1000).hide({},900);
         dataRef.ref().child("Key1").set({player: chosenNumber, choice1: 0, seat: 1
@@ -55,36 +56,32 @@ $(document).ready(function() {
         choice1 = "rock";
         $('#paper1').hide()
         $('#scissors1').hide()
-        
         dataRef.ref().child("Key1").update({choice1: choice1, seat: 1
         })
-        
     })
     $(document).on('click', '#paper1', function() {
         choice1 = "paper";
         $('#rock1').hide()
         $('#scissors1').hide()
-        
             dataRef.ref().child("Key1").update({choice1: choice1, seat: 1
             })
-        
     })
     $(document).on('click', '#scissors1', function() {
         choice1 = "scissors";
         $('#rock1').hide()
         $('#paper1').hide()
-        
             dataRef.ref().child("Key1").update({choice1: choice1, seat: 1
             })
-        
     })
     
     $(document).on('click', '#seat2', function() {
         chosenNumber = 2
+        otherNumber = 1
         seat2 = 1
         setTimeout(function() {
-            $('.icons-1').html(i1).hide();
+            $('.icons-1').html(i1);
             $('.icons-2').html(i2);
+            $('#rock1,#paper1,#scissors1').hide()
         },500)
         $('#seat1').animate({opacity: '0', height: '1px'},1000).hide({},900);
         dataRef.ref().child("Key2").set({player: chosenNumber, choice2: 0, seat: 1
@@ -94,28 +91,22 @@ $(document).ready(function() {
         choice2 = "rock";
         $('#paper2').hide()
         $('#scissors2').hide()
-        
         dataRef.ref().child("Key2").update({choice2: choice2, seat: 1
         })
-    
     })
     $(document).on('click', '#paper2', function() {
         choice2 = "paper";
         $('#rock2').hide()
         $('#scissors2').hide()
-        
         dataRef.ref().child("Key2").update({choice2: choice2, seat: 1
         })
-    
     })
     $(document).on('click', '#scissors2', function() {
         choice2 = "scissors";
         $('#rock2').hide()
         $('#paper2').hide()
-        
         dataRef.ref().child("Key2").update({choice2: choice2, seat: 1
         })
-    
     })
 
 dataRef.ref().on("value", function(childSnapshot) {
@@ -151,7 +142,11 @@ dataRef.ref().on("value", function(childSnapshot) {
     if(((ch1==='rock')||(ch1==='paper')||(ch1==='scissors'))&&((ch2==='rock')||(ch2==='paper')||(ch2==='scissors'))) {
         if (ch1===ch2) {
             console.log('tie')
+            $('#'+ch1+otherNumber).show()
+            $('#'+ch2+otherNumber).show()
             setTimeout(function() {
+                $('#'+ch1+otherNumber).hide()
+                $('#'+ch2+otherNumber).hide()
                 $('.icons-'+chosenNumber).html($('#rps-'+chosenNumber).html())
                 dataRef.ref().child("Key1").update({choice1: 0, seat: 1
                 })
