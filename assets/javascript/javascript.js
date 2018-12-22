@@ -128,13 +128,14 @@ dataRef.ref().on("value", function(childSnapshot) {
         $('#welcome').html('<div>One of the players has left the game</div>')
         score=0
     }
-
     if (seat1===1) {$('#seat1').hide()}
     if (seat2===1) {$('#seat2').hide()}
     if (((seat1===1)&&(seat2===1))&&(((pl1===1)&&(pl2===2))||((pl2===1)&&(pl1===2)))) {
         if(gameActive===0){
         console.log('player left')
-        dataRef.ref().child("Key"+chosenNumber).set({player: 0, choice: 0, seat: 0, playerLeft: 1
+        dataRef.ref().child("Key1").set({player: 0, choice: 0, seat: 0, playerLeft: 1
+        })
+        dataRef.ref().child("Key2").set({player: 0, choice: 0, seat: 0, playerLeft: 1
         })
         }
     }
