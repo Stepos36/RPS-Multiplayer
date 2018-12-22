@@ -138,6 +138,7 @@ $(document).ready(function() {
     })
     $(document).on('click', '#add-message', function() {
         dataRef.ref().child("chat").push({name: playerName, message: $('.chat-input').val()})
+        $('.chat-input').val('')
     })
 
 dataRef.ref().on("value", function(childSnapshot) {
@@ -239,6 +240,15 @@ dataRef.ref().on("value", function(childSnapshot) {
         game.html(got)
         $('.score').html('<div>'+nm1+' scored: '+ score1+'</div><div>'+nm2+' scored: '+ score2+'</div>')
     }
+})
+dataRef.ref('/chat').limitToLast(5).on('child_added', function(snapshot) {
+    var chatDiv = $('<div>')
+    var chatName = $('<span>')
+    var chatMsg = $('<span>')
+    chatName.append(snapshot.val().name)
+    chatMsg.append(snapshot.val().message)
+    chatDiv.append(chatName).append(': ').append(chatMsg)
+    $('.chat-display').append(chatDiv)
 })
 })
 
