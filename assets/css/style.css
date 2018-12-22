@@ -55,3 +55,14 @@ body {
 .gameOver,.score, {
     display: inline-block
 }
+.chat-input {
+    width:100%;
+}
+.chat-display {
+    height:150px;
+    border: rgb(76,49,49) 2px groove;
+    overflow: auto;
+}
+.chat-window {
+    margin-bottom: 10px
+}

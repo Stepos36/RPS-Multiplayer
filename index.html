@@ -27,18 +27,22 @@
             <div class="row chat">
                 <div class="col-md-4"></div>
                 <div class="col-md-4 chat-window">
-                
+                    <div class="chat-display"></div>
+                    <input class="chat-input" type='text'>
+                    <button class="btn btn-default" id="add-message" type="submit">Submit</button>
                 </div>
                 <div class="col-md-4"></div>
             </div>
             <div class="row game-container">
                 <div class="col-md-6 player1">
+                    <div class="name1"></div>
                     <div class="score-1"></div>
                     <input id="seat1" type="submit" value="Seat here">
                     <div class="icons-1"></div>
                     <div class="status-1"></div>
                 </div>
                 <div class="col-md-6 player2">
+                    <div class="name2"></div>
                     <div class="score-2"></div>
                     <input id="seat2" type="submit" value="Seat here">
                     <div class="icons-2"></div>
@@ -73,6 +77,18 @@
             <img id="rock2" class="rps-tool" src="assets/images/rock.png">
             <img id="paper2" class="rps-tool" src="assets/images/paper.png">
             <img id="scissors2" class="rps-tool" src="assets/images/scissors.png">
+        </script>
+        
+        <script id="name-1" type="text/template">
+            <label for="name-1-input">Enter your name:</label>
+            <input id="name-1-input" type="text">
+            <button class="btn btn-default" id="add-name-1" type="submit">Add name</button>
+        </script>
+        
+        <script id="name-2" type="text/template">
+            <label for="name-2-input">Enter your name:</label>
+            <input id="name-2-input" type="text">
+            <button class="btn btn-default" id="add-name-2" type="submit">Add name</button>
         </script>
     </body>
 </html>

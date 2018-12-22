@@ -7,6 +7,8 @@ var otherNumber;
 var seat1;
 var seat2;
 var gameActive;
+var playerName1 = 'Player 1';
+var playerName2 = 'Player 2';
 $(document).ready(function() {
     gameActive = 0
     var config = {
@@ -31,10 +33,6 @@ $(document).ready(function() {
     $('.gameWindow').html(mt)
 
     $(document).on('click', '.startGame', function() {
-        game.html(gt)
-        startGame()
-        $('.score-1').html('Score: ' + score1)
-        $('.score-2').html('Score: ' + score2)
         $('#welcome').html('')
         gameActive = 1
         checkSeats()
@@ -42,8 +40,11 @@ $(document).ready(function() {
         })
         dataRef.ref().child("Key2").update({score: 0, playerLeft: 0
         })
+        game.html(gt)
+        startGame()
+        $('.score-2').html('Score: ' + score2)
+        $('.score-1').html('Score: ' + score1)
     })
-
     $(document).on('click', '#seat1', function() {
         chosenNumber = 1
         otherNumber = 2
@@ -54,7 +55,8 @@ $(document).ready(function() {
             $('#rock2,#paper2,#scissors2').hide()
         },500)
         $('#seat2').animate({opacity: '0', height: '1px'},1000).hide({},900);
-        dataRef.ref().child("Key1").set({player: chosenNumber, choice: 0, seat: 1
+        $('.name1').html($('#name-1').html())
+        dataRef.ref().child("Key1").set({player: chosenNumber, choice: 0, seat: 1, playerName: 'Player 1'
         })
     })
     $(document).on('click', '#rock1', function() {
@@ -89,7 +91,8 @@ $(document).ready(function() {
             $('#rock1,#paper1,#scissors1').hide()
         },500)
         $('#seat1').animate({opacity: '0', height: '1px'},1000).hide({},900);
-        dataRef.ref().child("Key2").set({player: chosenNumber, choice: 0, seat: 1
+        $('.name2').html($('#name-2').html())
+        dataRef.ref().child("Key2").set({player: chosenNumber, choice: 0, seat: 1, playerName: 'Player 2'
         })
     })
     $(document).on('click', '#rock2', function() {
@@ -114,6 +117,22 @@ $(document).ready(function() {
         })
     })
 
+    $(document).on('click', '#add-name-1', function() {
+        playerName1 = $('#name-1-input').val()
+        dataRef.ref().child("Key1").update({playerName: playerName1
+        })
+        $('.name1').html('<div class="nam1"><h4>'+playerName1+'</h4></div>')
+        $('.name2').html('<div class="nam2"></div>')   
+    })
+
+    $(document).on('click', '#add-name-2', function() {
+        playerName2 = $('#name-2-input').val()
+        dataRef.ref().child("Key2").update({playerName: playerName2
+        })
+        $('.name2').html('<div class="nam2"><h4>'+playerName2+'</h4></div>')
+        $('.name1').html('<div class="nam1"></div>')
+    })
+
 dataRef.ref().on("value", function(childSnapshot) {
     var ch1 = childSnapshot.val().Key1.choice
     var ch2 = childSnapshot.val().Key2.choice
@@ -122,7 +141,11 @@ dataRef.ref().on("value", function(childSnapshot) {
     var pl1 = childSnapshot.val().Key1.player
     var pl2 = childSnapshot.val().Key2.player
     var sc1 = childSnapshot.val().Key1.score
-    var sc2 = childSnapshot.val().Key1.score
+    var sc2 = childSnapshot.val().Key2.score
+    var nm1 = childSnapshot.val().Key1.playerName
+    var nm2 = childSnapshot.val().Key2.playerName
+    $('.nam2').html('<h4>'+nm2+'</h4>')
+    $('.nam1').html('<h4>'+nm1+'</h4>')
     if ((childSnapshot.val().Key1.playerLeft===1)&&(childSnapshot.val().Key2.playerLeft===1)){
         $('.gameWindow').empty().html(mt)
         $('#welcome').html('<div>One of the players has left the game</div>')
@@ -207,7 +230,7 @@ dataRef.ref().on("value", function(childSnapshot) {
         dataRef.ref().child("Key"+chosenNumber).update({player: 0, choice: 0, seat: 0
         })
         game.html(got)
-        $('.score').html('<div>Player1 scored: '+ score1+'</div><div>Player2 scored: '+ score2+'</div>')
+        $('.score').html('<div>'+nm1+' scored: '+ score1+'</div><div>'+nm2+' scored: '+ score2+'</div>')
     }
 })
 })
