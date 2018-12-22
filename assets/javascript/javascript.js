@@ -21,7 +21,7 @@ $(document).ready(function() {
   };
   firebase.initializeApp(config);
 
-      var dataRef = firebase.database();
+    var dataRef = firebase.database();
       
     var game = $('.gameWindow');
     var gt = $('#gameTemplate').html()
@@ -36,9 +36,9 @@ $(document).ready(function() {
         $('#welcome').html('')
         gameActive = 1
         checkSeats()
-        dataRef.ref().child("Key1").update({score: 0, playerLeft: 0
+        dataRef.ref().child("Key1").update({score: 0, playerLeft: 0, playerName:'unknown'
         })
-        dataRef.ref().child("Key2").update({score: 0, playerLeft: 0
+        dataRef.ref().child("Key2").update({score: 0, playerLeft: 0, playerName:'unknown'
         })
         game.html(gt)
         startGame()
@@ -46,6 +46,7 @@ $(document).ready(function() {
         $('.score-1').html('Score: ' + score1)
     })
     $(document).on('click', '#seat1', function() {
+        playerName = 'Player 1'
         chosenNumber = 1
         otherNumber = 2
         seat1 = 1
@@ -82,6 +83,7 @@ $(document).ready(function() {
     })
     
     $(document).on('click', '#seat2', function() {
+        playerName = 'Player 2'
         chosenNumber = 2
         otherNumber = 1
         seat2 = 1
@@ -119,6 +121,7 @@ $(document).ready(function() {
 
     $(document).on('click', '#add-name-1', function() {
         playerName1 = $('#name-1-input').val()
+        playerName = playerName1
         dataRef.ref().child("Key1").update({playerName: playerName1
         })
         $('.name1').html('<div class="nam1"><h4>'+playerName1+'</h4></div>')
@@ -127,10 +130,14 @@ $(document).ready(function() {
 
     $(document).on('click', '#add-name-2', function() {
         playerName2 = $('#name-2-input').val()
+        playerName = playerName2
         dataRef.ref().child("Key2").update({playerName: playerName2
         })
         $('.name2').html('<div class="nam2"><h4>'+playerName2+'</h4></div>')
         $('.name1').html('<div class="nam1"></div>')
+    })
+    $(document).on('click', '#add-message', function() {
+        dataRef.ref().child("chat").push({name: playerName, message: $('.chat-input').val()})
     })
 
 dataRef.ref().on("value", function(childSnapshot) {
@@ -234,6 +241,7 @@ dataRef.ref().on("value", function(childSnapshot) {
     }
 })
 })
+
 function checkSeats() {
     if (seat1===1) {$('#seat1').hide()};
     if (seat2===1) {$('#seat2').hide()};
