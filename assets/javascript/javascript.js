@@ -10,6 +10,7 @@ var gameActive;
 var playerName1 = 'Player 1';
 var playerName2 = 'Player 2';
 $(document).ready(function() {
+    setInterval(updateScroll,1000)
     gameActive = 0
     var config = {
     apiKey: "AIzaSyD59YIx73X9qHrStectDXOorxsKx4xZDe8",
@@ -120,7 +121,7 @@ $(document).ready(function() {
     })
 
     $(document).on('click', '#add-name-1', function() {
-        playerName1 = $('#name-1-input').val()
+        playerName1 = $('#name-1-input').val().trim()
         playerName = playerName1
         dataRef.ref().child("Key1").update({playerName: playerName1
         })
@@ -129,7 +130,7 @@ $(document).ready(function() {
     })
 
     $(document).on('click', '#add-name-2', function() {
-        playerName2 = $('#name-2-input').val()
+        playerName2 = $('#name-2-input').val().trim()
         playerName = playerName2
         dataRef.ref().child("Key2").update({playerName: playerName2
         })
@@ -137,7 +138,7 @@ $(document).ready(function() {
         $('.name1').html('<div class="nam1"></div>')
     })
     $(document).on('click', '#add-message', function() {
-        dataRef.ref().child("chat").push({name: playerName, message: $('.chat-input').val()})
+        dataRef.ref().child("chat").push({name: playerName, message: $('.chat-input').val().trim(), time: firebase.database.ServerValue.TIMESTAMP})
         $('.chat-input').val('')
     })
 
@@ -243,12 +244,13 @@ dataRef.ref().on("value", function(childSnapshot) {
 })
 dataRef.ref('/chat').limitToLast(5).on('child_added', function(snapshot) {
     var chatDiv = $('<div>')
-    var chatName = $('<span>')
+    var chatName = $('<strong>')
     var chatMsg = $('<span>')
     chatName.append(snapshot.val().name)
     chatMsg.append(snapshot.val().message)
     chatDiv.append(chatName).append(': ').append(chatMsg)
     $('.chat-display').append(chatDiv)
+    $(".chat-display").animate({ scrollTop: 20000000 }, "slow");
 })
 })
 
@@ -262,4 +264,8 @@ function startGame() {
     score1 = 0;
     score2 = 0;
     chosenNumber = 0;
+}
+
+function updateScroll(){
+    $('.chat-display').scrollTop = $('.chat-display').scrollHeight;
 }

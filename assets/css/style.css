@@ -56,13 +56,19 @@ body {
     display: inline-block
 }
 .chat-input {
-    width:100%;
+    display: inline-block;
+    margin-top: 5px
 }
 .chat-display {
-    height:150px;
+    height:130px;
     border: rgb(76,49,49) 2px groove;
     overflow: auto;
+    text-align: left
+}
+#add-message {
+    display: inline-block
 }
 .chat-window {
-    margin-bottom: 10px
+    margin-bottom: 10px;
+    text-align: center
 }
