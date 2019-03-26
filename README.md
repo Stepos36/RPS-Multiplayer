@@ -3,12 +3,12 @@
 _Classic rock-paper-scissors multiplayer game. Enjoy playing it with your friends online!_
 
 <p align="center">
-    <img src="assets/images/logo.png">
+    <img style="height:100px" src="assets/images/logo.png">
 </p>
 <p align="center">
-    <img src="assets/images/rock.png">
-    <img src="assets/images/paper.png">
-    <img src="assets/images/scissors.png">
+    <img style="height:100px" src="assets/images/rock.png">
+    <img style="height:100px" src="assets/images/paper.png">
+    <img style="height:100px" src="assets/images/scissors.png">
 </p>
 
 ## Typical gameflow:
